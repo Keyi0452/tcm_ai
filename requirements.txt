@@ -36,7 +36,7 @@ rpds-py==0.23.1
 six==1.17.0
 smmap==5.0.2
 streamlit==1.42.2
--e git+ssh://git@github.com/wangkeyi0452/tcm_ai.git@f145c01bac8d49e91495a7253e56356d737742dc#egg=tcm_ai
+-e git+ssh://git@github.com/Keyi0452/tcm_ai.git@f155668ee0afdc37dde70d92a03442a7b2cccf12#egg=tcm_ai
 tenacity==9.0.0
 toml==0.10.2
 tomli==2.2.1
