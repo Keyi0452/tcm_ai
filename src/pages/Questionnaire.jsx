@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
+import { Card, Form, Radio, Button, Toast, NavBar, Space } from 'antd-mobile';
 import styled from 'styled-components';
-import { questionnaireData } from '../data/questionnaireData';  // 确保这个路径正确
+import { questionnaireData, constitutionTypes } from '../data/questionnaireData';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -32,11 +32,62 @@ const Disclaimer = styled.div`
   line-height: 1.5;
 `;
 
+const NavigationButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+`;
+
+const ProgressText = styled.div`
+  text-align: center;
+  color: #666;
+  margin: 10px 0;
+`;
+
 const Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [form] = Form.useForm();
+
+  const handleNext = () => {
+    const value = form.getFieldValue(`question_${currentQuestion}`);
+    if (!value) {
+      Toast.show({
+        content: '请选择一个选项',
+        position: 'bottom',
+      });
+      return;
+    }
+    
+    setAnswers(prev => ({
+      ...prev,
+      [currentQuestion]: value
+    }));
+
+    if (currentQuestion < questionnaireData.length - 1) {
+      setCurrentQuestion(prev => prev + 1);
+      form.resetFields();
+    } else {
+      // TODO: 处理问卷完成逻辑
+      Toast.show({
+        content: '问卷已完成！',
+        position: 'bottom',
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(prev => prev - 1);
+      form.setFieldsValue({
+        [`question_${currentQuestion - 1}`]: answers[currentQuestion - 1]
+      });
+    }
+  };
 
   return (
     <PageContainer>
+      <NavBar onBack={handlePrev}>
       <Title>中医体质测试</Title>
       <Disclaimer>
         本测试仅供参考，不作为医疗诊断依据。
