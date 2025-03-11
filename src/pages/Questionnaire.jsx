@@ -37,9 +37,9 @@ import { Card } from 'antd-mobile';
 
 const Questionnaire = () => {
   return (
-    <div>
+    <div style={{ padding: '16px' }}>
       <Card title="中医体质测试">
-        <p>开始您的体质测试</p>
+        <p>测试页面已成功加载</p>
       </Card>
     </div>
   );
