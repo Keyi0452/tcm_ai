@@ -1,13 +1,13 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Questionnaire from './pages/Questionnaire';
 
 function App() {
   return (
     <BrowserRouter>
-      <div>
-        <h1>中医体质辨识系统</h1>
-        <p>欢迎使用</p>
-      </div>
+      <Routes>
+        <Route path="/" element={<Questionnaire />} />
+      </Routes>
     </BrowserRouter>
   );
 }

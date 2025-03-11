@@ -32,61 +32,16 @@ const Disclaimer = styled.div`
   line-height: 1.5;
 `;
 
+import React from 'react';
+import { Card } from 'antd-mobile';
+
 const Questionnaire = () => {
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    // 这里添加问卷计算逻辑
-    Toast.show({
-      content: '问卷提交成功！',
-      duration: 1000,
-    });
-  };
-
   return (
-    <>
-      <NavBar back={null}>中医体质辨识</NavBar>
-      <PageContainer>
-        <Title>中医体质辨识问卷</Title>
-        <Disclaimer>
-          声明：本问卷仅供参考，不作为医疗诊断依据。如有健康问题，请及时就医。
-        </Disclaimer>
-        
-        <Form
-          form={form}
-          onFinish={onFinish}
-          layout='vertical'
-        >
-          {questionnaireData.map((question, index) => (
-            <QuestionCard key={index}>
-              <Form.Item
-                name={`q${index}`}
-                label={question.text}
-                rules={[{ required: true, message: '请选择答案' }]}
-              >
-                <Radio.Group>
-                  {question.options.map((option, optIndex) => (
-                    <Radio key={optIndex} value={optIndex}>
-                      {option}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              </Form.Item>
-            </QuestionCard>
-          ))}
-          
-          <Button
-            block
-            color='primary'
-            size='large'
-            type='submit'
-            style={{ marginTop: '20px' }}
-          >
-            提交问卷
-          </Button>
-        </Form>
-      </PageContainer>
-    </>
+    <div>
+      <Card title="中医体质测试">
+        <p>开始您的体质测试</p>
+      </Card>
+    </div>
   );
 };
 
