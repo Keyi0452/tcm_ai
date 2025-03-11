@@ -1,11 +1,14 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <h1>中医体质辨识系统</h1>
-      <p>测试页面</p>
-    </div>
+    <BrowserRouter>
+      <div>
+        <h1>中医体质辨识系统</h1>
+        <p>欢迎使用</p>
+      </div>
+    </BrowserRouter>
   );
 }
 
