@@ -34,6 +34,7 @@ const Disclaimer = styled.div`
 
 import React from 'react';
 import { Card } from 'antd-mobile';
+import questions from '../data/questions';
 
 const Questionnaire = () => {
   return (
