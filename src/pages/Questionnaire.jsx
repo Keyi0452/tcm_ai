@@ -32,17 +32,17 @@ const Disclaimer = styled.div`
   line-height: 1.5;
 `;
 
-import React from 'react';
-import { Card } from 'antd-mobile';
-import questions from '../data/questions';
-
 const Questionnaire = () => {
   return (
-    <div style={{ padding: '16px' }}>
-      <Card title="中医体质测试">
+    <PageContainer>
+      <Title>中医体质测试</Title>
+      <Disclaimer>
+        本测试仅供参考，不作为医疗诊断依据。如有健康问题请咨询专业医生。
+      </Disclaimer>
+      <QuestionCard>
         <p>测试页面已成功加载</p>
-      </Card>
-    </div>
+      </QuestionCard>
+    </PageContainer>
   );
 };
 
