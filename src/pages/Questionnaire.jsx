@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { questionnaireData } from '../data/questionnaireData';
+import { questions_data } from '../data/questionnaireData';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -33,14 +33,27 @@ const Disclaimer = styled.div`
 `;
 
 const Questionnaire = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
   return (
     <PageContainer>
       <Title>中医体质测试</Title>
       <Disclaimer>
-        本测试仅供参考，不作为医疗诊断依据。如有健康问题请咨询专业医生。
+        本测试仅供参考，不作为医疗诊断依据。
       </Disclaimer>
       <QuestionCard>
-        <p>测试页面已成功加载</p>
+        {questions_data && questions_data[currentQuestion] && (
+          <div>
+            <h3>{questions_data[currentQuestion].text}</h3>
+            <Form layout='vertical'>
+              {questions_data[currentQuestion].options.map((option, index) => (
+                <Form.Item key={index}>
+                  <Radio>{option}</Radio>
+                </Form.Item>
+              ))}
+            </Form>
+          </div>
+        )}
       </QuestionCard>
     </PageContainer>
   );
