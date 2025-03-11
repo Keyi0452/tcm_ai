@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { questions_data } from '../data/questionnaireData';
+import { questionnaireData } from '../data/questionnaireData';  // 修改这里
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -42,11 +42,11 @@ const Questionnaire = () => {
         本测试仅供参考，不作为医疗诊断依据。
       </Disclaimer>
       <QuestionCard>
-        {questions_data && questions_data[currentQuestion] && (
+        {questionnaireData && questionnaireData[currentQuestion] && (  // 修改这里
           <div>
-            <h3>{questions_data[currentQuestion].text}</h3>
+            <h3>{questionnaireData[currentQuestion].text}</h3>  // 修改这里
             <Form layout='vertical'>
-              {questions_data[currentQuestion].options.map((option, index) => (
+              {questionnaireData[currentQuestion].options.map((option, index) => (  // 修改这里
                 <Form.Item key={index}>
                   <Radio>{option}</Radio>
                 </Form.Item>

@@ -1,4 +1,4 @@
-export const questions_data = [
+export const questionnaireData = [
   {
     id: 1,
     text: "您平时容易疲乏吗？",
@@ -10,5 +10,3 @@ export const questions_data = [
     options: ["没有", "很少", "有时", "经常", "总是"]
   }
 ];
-
-export const questionnaireData = questions_data;
