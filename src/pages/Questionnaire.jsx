@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { questionnaireData } from '../data/questionnaireData';  // 修改这里
+import { questionnaireData } from '../data/questionnaireData';  // 确保这里的导入路径正确
 
 const PageContainer = styled.div`
   max-width: 800px;
