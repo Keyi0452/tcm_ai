@@ -1,5 +1,4 @@
-import { constitutionTypes } from './questionnaireData';
-
+// 删除 import { constitutionTypes } 这行，直接在这里定义
 export const constitutionTypes = [
   "平和质",
   "气虚质",
