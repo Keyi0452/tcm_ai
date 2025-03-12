@@ -128,7 +128,7 @@ questions_data = {
         },
         {
             "id": 12,
-            "question": "您活动量稍大就容易出虚汗吗？"+
+            "question": "您活动量稍大就容易出虚汗吗？",
             "options": ["没有", "很少", "有时", "经常", "总是"],
             "scores": [1, 2, 3, 4, 5],
             "constitution_type": "气虚质"

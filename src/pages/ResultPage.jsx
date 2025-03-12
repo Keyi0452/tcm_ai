@@ -1,9 +1,8 @@
 import React from 'react';
-import { Card, NavBar, Grid } from 'antd-mobile';
-import constitutionData from '../data/constitutionInfo';
+import { Card, NavBar } from 'antd-mobile';
+import { constitutionData } from '../data/constitutionInfo';
 import styled from 'styled-components';
 
-// 新增卡片容器样式
 const CardContainer = styled.div`
   display: flex;
   gap: 16px;
@@ -14,6 +13,19 @@ const CardContainer = styled.div`
 export default () => {
   const result = constitutionData[localStorage.getItem('constitutionResult')];
   
+  if (!result) {
+    return (
+      <div style={{ padding: 16 }}>
+        <NavBar onBack={() => window.history.back()} />
+        <Card style={{ marginTop: 24 }}>
+          <Card.Body>
+            <p style={{ textAlign: 'center' }}>未找到体质信息，请重新进行测试</p>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: 16 }}>
       <NavBar onBack={() => window.history.back()} />

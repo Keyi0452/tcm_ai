@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Form, Radio, Button, Toast, NavBar, Space } from 'antd-mobile';
+import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
 import { questionnaireData, constitutionTypes } from '../data/questionnaireData';
 
@@ -33,128 +33,112 @@ const Disclaimer = styled.div`
   line-height: 1.5;
 `;
 
-const NavigationButtons = styled.div`
-  display: flex;
-  justify-content: space-between;
+const SubmitButton = styled(Button)`
+  width: 100%;
   margin-top: 20px;
-`;
-
-const ProgressText = styled.div`
-  text-align: center;
-  color: #666;
-  margin: 10px 0;
 `;
 
 const Questionnaire = () => {
   const navigate = useNavigate();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({});
   const [form] = Form.useForm();
 
-  const handleNext = () => {
-    const value = form.getFieldValue(`question_${currentQuestion}`);
-    if (!value) {
-      Toast.show({
-        content: '请选择一个选项',
-        position: 'bottom',
-      });
-      return;
-    }
-    
-    setAnswers(prev => ({
-      ...prev,
-      [currentQuestion]: value
-    }));
+  const handleSubmit = () => {
+    form.validateFields().then(values => {
+      // 检查是否所有题目都已回答
+      const unansweredQuestions = questionnaireData.filter(
+        (_, index) => !values[`question_${index}`]
+      );
 
-    if (currentQuestion < questionnaireData.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
-      form.resetFields();
-    } else {
-      // TODO: 处理问卷完成逻辑
-      Toast.show({
-        content: '问卷已完成！',
-        position: 'bottom',
-      });
-    }
+      if (unansweredQuestions.length > 0) {
+        Toast.show({
+          content: '请回答所有问题',
+          position: 'bottom',
+        });
+        return;
+      }
+
+      // 计算分数
+      const scores = calculateScores(values);
+      const constitution = determineConstitution(scores);
+      
+      // 存储结果并跳转
+      localStorage.setItem('constitutionResult', constitution);
+      navigate('/result');
+    });
   };
 
-  const handlePrev = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(prev => prev - 1);
-      form.setFieldsValue({
-        [`question_${currentQuestion - 1}`]: answers[currentQuestion - 1]
-      });
-    }
-  };
-
-  // 添加计分逻辑函数
+  // 计分逻辑函数
   const calculateScores = (answers) => {
     const scores = {};
-    Object.values(answers).forEach(choice => {
-      constitutionTypes.forEach(type => {
-        scores[type] = (scores[type] || 0) + (choice.includes(type) ? 1 : 0);
-      });
+    constitutionTypes.forEach(type => scores[type] = 0);
+    
+    Object.entries(answers).forEach(([key, choice]) => {
+      const questionId = parseInt(key.split('_')[1]);
+      const question = questionnaireData[questionId];
+      const score = question.options.indexOf(choice) + 1; // 选项分数从1到5
+      scores[question.category] += score;
     });
+
+    // 计算百分比分数
+    Object.keys(scores).forEach(type => {
+      const totalQuestions = questionnaireData.filter(q => q.category === type).length;
+      if (totalQuestions > 0) {
+        scores[type] = (scores[type] / (totalQuestions * 5)) * 100;
+      }
+    });
+
     return scores;
   };
 
-  // 添加体质判断函数
+  // 体质判断函数
   const determineConstitution = (scores) => {
+    // 判断是否为平和质
+    if (scores["平和质"] >= 60 && 
+        Object.entries(scores).every(([type, score]) => 
+          type === "平和质" || score < 30
+        )) {
+      return "平和质";
+    }
+
+    // 判断其他体质
     let maxScore = 0;
-    let constitution = '';
+    let constitution = "平和质";
     Object.entries(scores).forEach(([type, score]) => {
-      if (score > maxScore) {
+      if (type !== "平和质" && score >= 40 && score > maxScore) {
         maxScore = score;
         constitution = type;
       }
     });
+
     return constitution;
   };
 
-  // 修改处理完成的逻辑
-  const handleComplete = () => {
-    const scores = calculateScores(answers);
-    const constitution = determineConstitution(scores);
-    
-    // 存储结果并跳转
-    localStorage.setItem('constitutionResult', JSON.stringify(constitution));
-    navigate('/result');
-  };
-
-  // 在return语句前添加结果判断
-  if (currentQuestion === questionnaireData.length) {
-    return (
-      <PageContainer>
-        <Title>正在生成结果...</Title>
-      </PageContainer>
-    );
-  }
-
-  // 修改原有返回结构，补充按钮和表单绑定
   return (
     <PageContainer>
-      <NavBar onBack={handlePrev} />
+      <NavBar onBack={() => window.history.back()} />
       <Title>中医体质测试</Title>
       <Disclaimer>本测试仅供参考，不作为医疗诊断依据。</Disclaimer>
-      <ProgressText>当前进度：{currentQuestion + 1}/{questionnaireData.length}</ProgressText>
       
-      <QuestionCard>
-        <Form form={form} initialValues={answers}>
-          <h3>{questionnaireData[currentQuestion].text}</h3>
-          {questionnaireData[currentQuestion].options.map((option, index) => (
-            <Form.Item name={`question_${currentQuestion}`} key={index}>
-              <Radio value={option}>{option}</Radio>
-            </Form.Item>
-          ))}
-        </Form>
-      </QuestionCard>
+      <Form form={form}>
+        {questionnaireData.map((question, index) => (
+          <QuestionCard key={index}>
+            <Card.Body>
+              <h3>{question.question}</h3>
+              <Form.Item name={`question_${index}`} rules={[{ required: true, message: '请选择一个选项' }]}>
+                <Radio.Group>
+                  {question.options.map((option, optionIndex) => (
+                    <Radio key={optionIndex} value={option}>{option}</Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </Card.Body>
+          </QuestionCard>
+        ))}
+      </Form>
 
-      <NavigationButtons>
-        <Button disabled={currentQuestion === 0} onClick={handlePrev}>上一题</Button>
-        <Button color='primary' onClick={currentQuestion === questionnaireData.length - 1 ? handleComplete : handleNext}>
-          {currentQuestion === questionnaireData.length - 1 ? '查看结果' : '下一题'}
-        </Button>
-      </NavigationButtons>
+      <SubmitButton color='primary' onClick={handleSubmit}>
+        提交问卷
+      </SubmitButton>
     </PageContainer>
   );
 };
