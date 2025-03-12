@@ -121,16 +121,15 @@ const Questionnaire = () => {
       <Form form={form}>
         {fullQuestionnaireData.map((question, index) => ( // 使用 fullQuestionnaireData
           <QuestionCard key={index}>
-            <Card.Body>
-              <h3>{question.question}</h3>
-              <Form.Item name={`question_${index}`} rules={[{ required: true, message: '请选择一个选项' }]}>
-                <Radio.Group>
-                  {question.options.map((option, optionIndex) => (
-                    <Radio key={optionIndex} value={option}>{option}</Radio>
-                  ))}
-                </Radio.Group>
-              </Form.Item>
-            </Card.Body>
+            {/* 移除 Card.Body */}
+            <h3>{question.question}</h3>
+            <Form.Item name={`question_${index}`} rules={[{ required: true, message: '请选择一个选项' }]}>
+              <Radio.Group>
+                {question.options.map((option, optionIndex) => (
+                  <Radio key={optionIndex} value={option}>{option}</Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
           </QuestionCard>
         ))}
       </Form>
