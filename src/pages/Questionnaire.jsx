@@ -8,7 +8,7 @@ const PageContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 16px;
-  background: #f0f0f0; // 修改为浅灰色
+  background: #fff9e6; // 修改为浅黄色
 `;
 
 const Title = styled.h1`
@@ -20,7 +20,7 @@ const Title = styled.h1`
 
 const Disclaimer = styled.div`
   padding: 16px;
-  background: #e0e0e0; // 修改为浅灰色
+  background: #fff3c4; // 修改为浅黄色
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 14px;
@@ -30,19 +30,24 @@ const Disclaimer = styled.div`
 const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 20px;
-  background-color: #ccc; // 修改为浅灰色
+  background-color: #ffd966; // 修改为浅黄色
   color: #333; // 深灰色文字
+  &:active {
+    background-color: #ffcc33; // 点击时的颜色
+  }
 `;
 
 const QuestionCard = styled(Card)`
   margin-bottom: 16px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff9e6; // 修改为浅黄色
 `;
 
 const OptionGroup = styled(Radio.Group)`
   display: flex;
-  gap: 10px; // 添加选项之间的间距
+  gap: 20px; // 增加选项组之间的间距
+  align-items: center; // 确保按钮和文字选项紧挨着
 `;
 
 const Questionnaire = () => {
