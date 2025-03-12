@@ -1,13 +1,42 @@
 import React from 'react';
 import { Card, NavBar } from 'antd-mobile';
-import { constitutionData } from '../data/constitutionInfo';  // 修改这行
+import { constitutionData } from '../data/constitutionInfo';
 import styled from 'styled-components';
+
+const PageContainer = styled.div`
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
 
 const CardContainer = styled.div`
   display: flex;
   gap: 16px;
   padding: 16px 0;
   overflow-x: auto;
+  
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+  }
+`;
+
+const IntroCard = styled(Card)`
+  margin: 16px 0;
+  background: #fff9e6;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 20px;
+  color: #333;
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ffd966;
+`;
+
+const GeneralAdvice = styled.p`
+  margin-bottom: 16px;
+  line-height: 1.6;
+  color: #666;
 `;
 
 export default () => {
@@ -15,27 +44,33 @@ export default () => {
   
   if (!result) {
     return (
-      <div style={{ padding: 16 }}>
+      <PageContainer>
         <NavBar onBack={() => window.history.back()} />
         <Card style={{ marginTop: 24 }}>
           <Card.Body>
             <p style={{ textAlign: 'center' }}>未找到体质信息，请重新进行测试</p>
           </Card.Body>
         </Card>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div style={{ padding: 16 }}>
+    <PageContainer>
       <NavBar onBack={() => window.history.back()} />
       <h1 style={{ textAlign: 'center', marginBottom: 24 }}>{result.name}体质调养建议</h1>
 
+      {/* 体质介绍 */}
+      <IntroCard>
+        <Card.Header title="体质特征介绍" />
+        <Card.Body>{result.introduction}</Card.Body>
+      </IntroCard>
+
       {/* 日常起居建议 */}
-      <h2 style={{ fontSize: 18, color: '#333', margin: '16px 0' }}>日常起居建议</h2>
+      <SectionTitle>日常起居建议</SectionTitle>
       <CardContainer>
         {result.dailyAdvice.map((advice, index) => (
-          <Card key={index} style={{ minWidth: 300 }}>
+          <Card key={index} style={{ flex: 1, minWidth: '30%' }}>
             <Card.Header title={`${advice.time}建议`} />
             <Card.Body>{advice.content}</Card.Body>
           </Card>
@@ -43,11 +78,11 @@ export default () => {
       </CardContainer>
 
       {/* 运动建议 */}
-      <h2 style={{ fontSize: 18, color: '#333', margin: '16px 0' }}>运动建议</h2>
-      <p style={{ marginBottom: 12 }}>{result.exerciseGeneral}</p>
+      <SectionTitle>运动建议</SectionTitle>
+      <GeneralAdvice>{result.exerciseGeneral}</GeneralAdvice>
       <CardContainer>
         {result.exerciseSpecific.map((exercise, index) => (
-          <Card key={index} style={{ minWidth: 280 }}>
+          <Card key={index} style={{ flex: 1, minWidth: '30%' }}>
             <Card.Header title={exercise.name} />
             <Card.Body>{exercise.description}</Card.Body>
           </Card>
@@ -55,11 +90,11 @@ export default () => {
       </CardContainer>
 
       {/* 饮食建议 */}
-      <h2 style={{ fontSize: 18, color: '#333', margin: '16px 0' }}>饮食建议</h2>
-      <p style={{ marginBottom: 12 }}>{result.dietGeneral}</p>
+      <SectionTitle>饮食建议</SectionTitle>
+      <GeneralAdvice>{result.dietGeneral}</GeneralAdvice>
       <CardContainer>
         {result.dietRecipes.map((recipe, index) => (
-          <Card key={index} style={{ minWidth: 300 }}>
+          <Card key={index} style={{ flex: 1, minWidth: '30%' }}>
             <Card.Header title={recipe.name} />
             <Card.Body>
               <p><strong>材料：</strong>{recipe.ingredients}</p>
@@ -70,11 +105,11 @@ export default () => {
       </CardContainer>
 
       {/* 茶饮建议 */}
-      <h2 style={{ fontSize: 18, color: '#333', margin: '16px 0' }}>茶饮建议</h2>
-      <p style={{ marginBottom: 12 }}>{result.teaGeneral}</p>
+      <SectionTitle>茶饮建议</SectionTitle>
+      <GeneralAdvice>{result.teaGeneral}</GeneralAdvice>
       <CardContainer>
         {result.teaRecipes.map((tea, index) => (
-          <Card key={index} style={{ minWidth: 280 }}>
+          <Card key={index} style={{ flex: 1, minWidth: '30%' }}>
             <Card.Header title={tea.name} />
             <Card.Body>
               <p><strong>材料：</strong>{tea.ingredients}</p>
@@ -83,6 +118,6 @@ export default () => {
           </Card>
         ))}
       </CardContainer>
-    </div>
+    </PageContainer>
   );
 };

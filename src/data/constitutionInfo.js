@@ -90,7 +90,7 @@ export const constitutionData = {
         exerciseSpecific: [
             {
                 name: "八段锦",
-                description: "温和traditional养生功法，可以补气养生，每天晨练15-20分钟。"
+                description: "温和传统养生功法，可以补气养生，每天晨练15-20分钟。"  // 修改这里
             },
             {
                 name: "散步",
