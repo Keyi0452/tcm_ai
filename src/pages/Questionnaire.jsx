@@ -40,26 +40,7 @@ const QuestionCard = styled(Card)`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.h1`
-  text-align: center;
-  color: #333;
-  margin: 20px 0;
-  font-size: 24px;
-`;
-
-const Disclaimer = styled.div`
-  padding: 16px;
-  background: #fff7e6;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  line-height: 1.5;
-`;
-
-const SubmitButton = styled(Button)`
-  width: 100%;
-  margin-top: 20px;
-`;
+// 删除重复的 Title 和 Disclaimer 声明
 
 const Questionnaire = () => {
   const navigate = useNavigate();
