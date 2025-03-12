@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, NavBar } from 'antd-mobile';
-import { constitutionData } from '../data/constitutionInfo';
+import { fullQuestionnaireData } from '../data/fullQuestionnaireData';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`

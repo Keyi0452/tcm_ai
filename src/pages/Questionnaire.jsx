@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { questionnaireData, constitutionTypes } from '../data/questionnaireData';
+import { fullQuestionnaireData } from '../data/fullQuestionnaireData';
 
 const PageContainer = styled.div`
   max-width: 800px;
