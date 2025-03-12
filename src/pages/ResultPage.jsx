@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, NavBar } from 'antd-mobile';
-import { constitutionTypes } from '../data/fullQuestionnaireData';
-import { constitutionData } from '../data/constitutionData';  // 确保这个文件存在
+import { constitutionData } from '../data/constitutionInfo';  // 修改这行
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
