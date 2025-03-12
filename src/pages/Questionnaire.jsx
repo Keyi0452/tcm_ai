@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
 import styled from 'styled-components';
-import { fullQuestionnaireData } from '../data/fullQuestionnaireData';
+import { fullQuestionnaireData, constitutionTypes } from '../data/fullQuestionnaireData'; // 确保路径正确
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -44,8 +44,7 @@ const Questionnaire = () => {
 
   const handleSubmit = () => {
     form.validateFields().then(values => {
-      // 检查是否所有题目都已回答
-      const unansweredQuestions = questionnaireData.filter(
+      const unansweredQuestions = fullQuestionnaireData.filter(
         (_, index) => !values[`question_${index}`]
       );
 
@@ -59,7 +58,7 @@ const Questionnaire = () => {
 
       // 计算分数
       const scores = calculateScores(values);
-      const constitution = determineConstitution(scores);
+      constitution = determineConstitution(scores);
       
       // 存储结果并跳转
       localStorage.setItem('constitutionResult', constitution);
@@ -74,14 +73,14 @@ const Questionnaire = () => {
     
     Object.entries(answers).forEach(([key, choice]) => {
       const questionId = parseInt(key.split('_')[1]);
-      const question = questionnaireData[questionId];
+      const question = fullQuestionnaireData[questionId]; // 使用 fullQuestionnaireData
       const score = question.options.indexOf(choice) + 1; // 选项分数从1到5
       scores[question.category] += score;
     });
 
     // 计算百分比分数
     Object.keys(scores).forEach(type => {
-      const totalQuestions = questionnaireData.filter(q => q.category === type).length;
+      const totalQuestions = fullQuestionnaireData.filter(q => q.category === type).length; // 使用 fullQuestionnaireData
       if (totalQuestions > 0) {
         scores[type] = (scores[type] / (totalQuestions * 5)) * 100;
       }
@@ -120,7 +119,7 @@ const Questionnaire = () => {
       <Disclaimer>本测试仅供参考，不作为医疗诊断依据。</Disclaimer>
       
       <Form form={form}>
-        {questionnaireData.map((question, index) => (
+        {fullQuestionnaireData.map((question, index) => ( // 使用 fullQuestionnaireData
           <QuestionCard key={index}>
             <Card.Body>
               <h3>{question.question}</h3>
