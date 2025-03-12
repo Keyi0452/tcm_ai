@@ -86,7 +86,7 @@ const Questionnaire = () => {
       // 计算分数
       const scores = calculateScores(values);
       console.log('计算得分:', scores);
-      constitution = determineConstitution(scores);
+      constitution = determineConstitution(scores); // 需要添加 const 声明
       console.log('判断体质:', constitution);
 
       // 存储结果并跳转
@@ -94,7 +94,7 @@ const Questionnaire = () => {
       console.log('准备跳转到结果页面');
       navigate('/result');
     }).catch(error => {
-      console.error("表单验证错误:", error);  // 打印完整的错误信息
+      console.error("表单验证错误:", error);
     });
   };
 
