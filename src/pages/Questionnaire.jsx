@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Form, Radio, Button, Toast, NavBar } from 'antd-mobile';
+import { Card, Form, Radio, Button, Toast } from 'antd-mobile'; // 移除 NavBar
 import styled from 'styled-components';
 import { fullQuestionnaireData, constitutionTypes } from '../data/fullQuestionnaireData'; // 确保路径正确
 
@@ -30,8 +30,8 @@ const Disclaimer = styled.div`
 const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 20px;
-  background-color: #888; // 修改为灰色
-  color: #fff; // 白色文字
+  background-color: #ccc; // 修改为浅灰色
+  color: #333; // 深灰色文字
 `;
 
 const QuestionCard = styled(Card)`
@@ -40,7 +40,10 @@ const QuestionCard = styled(Card)`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
-// 删除重复的 Title 和 Disclaimer 声明
+const OptionGroup = styled(Radio.Group)`
+  display: flex;
+  gap: 10px; // 添加选项之间的间距
+`;
 
 const Questionnaire = () => {
   const navigate = useNavigate();
@@ -120,27 +123,25 @@ const Questionnaire = () => {
 
   return (
     <PageContainer>
-      <NavBar onBack={() => window.history.back()} />
       <Title>中医体质测试</Title>
-      <Disclaimer>本测试仅供参考，不作为医疗诊断依据。</Disclaimer>
+      <Disclaimer>⚠️ 本测试仅供参考，不作为医疗诊断依据。</Disclaimer> // 添加感叹号 emoji
       
       <Form form={form}>
-        {fullQuestionnaireData.map((question, index) => ( // 使用 fullQuestionnaireData
+        {fullQuestionnaireData.map((question, index) => (
           <QuestionCard key={index}>
-            {/* 移除 Card.Body */}
             <h3>{question.question}</h3>
             <Form.Item name={`question_${index}`} rules={[{ required: true, message: '请选择一个选项' }]}>
-              <Radio.Group>
+              <OptionGroup>
                 {question.options.map((option, optionIndex) => (
                   <Radio key={optionIndex} value={option}>{option}</Radio>
                 ))}
-              </Radio.Group>
+              </OptionGroup>
             </Form.Item>
           </QuestionCard>
         ))}
       </Form>
 
-      <SubmitButton color='primary' onClick={handleSubmit}>
+      <SubmitButton onClick={handleSubmit}>
         提交问卷
       </SubmitButton>
     </PageContainer>
