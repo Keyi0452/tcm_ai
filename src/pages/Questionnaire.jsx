@@ -8,7 +8,30 @@ const PageContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 16px;
-  background: #f5f5f5;
+  background: #f0f0f0; // 修改为浅灰色
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  color: #333; // 深灰色
+  margin: 20px 0;
+  font-size: 24px;
+`;
+
+const Disclaimer = styled.div`
+  padding: 16px;
+  background: #e0e0e0; // 修改为浅灰色
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+`;
+
+const SubmitButton = styled(Button)`
+  width: 100%;
+  margin-top: 20px;
+  background-color: #888; // 修改为灰色
+  color: #fff; // 白色文字
 `;
 
 const QuestionCard = styled(Card)`
@@ -58,11 +81,13 @@ const Questionnaire = () => {
 
       // 计算分数
       const scores = calculateScores(values);
-      constitution = determineConstitution(scores);
-      
+      constitution = determineConstitution(scores); // 确保 constitution 变量正确声明和使用
+
       // 存储结果并跳转
       localStorage.setItem('constitutionResult', constitution);
-      navigate('/result');
+      navigate('/result'); // 确保 '/result' 路由正确配置
+    }).catch(error => {
+      console.error("表单验证错误:", error); // 捕获表单验证错误
     });
   };
 
