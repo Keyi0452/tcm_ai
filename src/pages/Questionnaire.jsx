@@ -84,7 +84,7 @@ const Questionnaire = () => {
       // 计算分数
       const scores = calculateScores(values);
       console.log('计算得分:', scores);
-      constitution = determineConstitution(scores);  // 添加 const 声明
+      constitution = determineConstitution(scores);  // 修改这里：添加 const
       console.log('判断体质:', constitution);
 
       // 存储结果并跳转
