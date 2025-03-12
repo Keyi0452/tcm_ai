@@ -67,6 +67,7 @@ const Questionnaire = () => {
   const [form] = Form.useForm();
 
   const handleSubmit = () => {
+    console.log('开始提交表单');
     form.validateFields().then(values => {
       const unansweredQuestions = fullQuestionnaireData.filter(
         (_, index) => !values[`question_${index}`]
@@ -82,10 +83,13 @@ const Questionnaire = () => {
 
       // 计算分数
       const scores = calculateScores(values);
-      constitution = determineConstitution(scores); // 修改：添加 const 声明
+      console.log('计算得分:', scores);
+      constitution = determineConstitution(scores);  // 修改：添加 const 声明
+      console.log('判断体质:', constitution);
 
       // 存储结果并跳转
       localStorage.setItem('constitutionResult', constitution);
+      console.log('准备跳转到结果页面');
       navigate('/result');
     }).catch(error => {
       console.error("表单验证错误:", error);
