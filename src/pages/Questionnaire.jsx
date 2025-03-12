@@ -82,11 +82,11 @@ const Questionnaire = () => {
 
       // 计算分数
       const scores = calculateScores(values);
-      constitution = determineConstitution(scores);
+      constitution = determineConstitution(scores); // 修改：添加 const 声明
 
       // 存储结果并跳转
       localStorage.setItem('constitutionResult', constitution);
-      navigate('/result'); // 确保 '/result' 路由正确配置
+      navigate('/result');
     }).catch(error => {
       console.error("表单验证错误:", error);
     });
