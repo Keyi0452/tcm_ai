@@ -46,8 +46,20 @@ const QuestionCard = styled(Card)`
 
 const OptionGroup = styled(Radio.Group)`
   display: flex;
-  gap: 20px; // 增加选项组之间的间距
+  gap: 10px; // 增加选项组之间的间距
   align-items: center; // 确保按钮和文字选项紧挨着
+  justify-content: space-between; // 确保每个选项之间有足够的间距
+
+  .adm-radio-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; // 增加每个选项之间的间距
+  }
+
+  .adm-radio-checked .adm-radio-inner {
+    border-color: #ccc; // 修改选中时的边框颜色为浅灰色
+    background-color: #ccc; // 修改选中时的背景颜色为浅灰色
+  }
 `;
 
 const Questionnaire = () => {
@@ -70,13 +82,13 @@ const Questionnaire = () => {
 
       // 计算分数
       const scores = calculateScores(values);
-      constitution = determineConstitution(scores); // 确保 constitution 变量正确声明和使用
+      constitution = determineConstitution(scores);
 
       // 存储结果并跳转
       localStorage.setItem('constitutionResult', constitution);
       navigate('/result'); // 确保 '/result' 路由正确配置
     }).catch(error => {
-      console.error("表单验证错误:", error); // 捕获表单验证错误
+      console.error("表单验证错误:", error);
     });
   };
 
@@ -129,7 +141,7 @@ const Questionnaire = () => {
   return (
     <PageContainer>
       <Title>中医体质测试</Title>
-      <Disclaimer>⚠️ 本测试仅供参考，不作为医疗诊断依据。</Disclaimer> // 添加感叹号 emoji
+      <Disclaimer>⚠️ 本测试仅供参考，不作为医疗诊断依据。</Disclaimer> 
       
       <Form form={form}>
         {fullQuestionnaireData.map((question, index) => (
