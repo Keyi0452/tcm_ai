@@ -44,7 +44,9 @@ const QuestionCard = styled(Card)`
   background-color: #fff9e6; // 修改为浅黄色
 `;
 
-const OptionGroup = styled(Radio.Group)`
+const OptionGroup = styled(Radio.Group).withConfig({
+  shouldForwardProp: (prop) => !['styledComponentId'].includes(prop),
+})`
   display: flex;
   gap: 10px; // 增加选项组之间的间距
   align-items: center; // 确保按钮和文字选项紧挨着
@@ -84,7 +86,7 @@ const Questionnaire = () => {
       // 计算分数
       const scores = calculateScores(values);
       console.log('计算得分:', scores);
-      constitution = determineConstitution(scores);  // 修改这里：添加 const
+      constitution = determineConstitution(scores);  // 添加 const 声明
       console.log('判断体质:', constitution);
 
       // 存储结果并跳转
